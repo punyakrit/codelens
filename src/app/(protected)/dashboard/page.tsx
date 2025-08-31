@@ -2,7 +2,7 @@
 import { useUser } from '@clerk/nextjs'
 import React from 'react'
 
-function page() {
+function Page() {
     const {user } = useUser()
   return (
     <div>
@@ -11,4 +11,4 @@ function page() {
   )
 }
 
-export default page
+export default Page
