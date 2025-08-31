@@ -94,7 +94,7 @@ function AppSidebar() {
                 <SidebarMenuButton asChild>
                   <Link
                     href={item.url}
-                    className={`${pathname === item.url ? "bg-sidebar-accent" : ""} flex list-none items-center`}
+                    className={`${pathname === item.url ? "bg-sidebar-primary/30" : ""} flex list-none items-center hover:bg-sidebar-primary/10`}
                   >
                     <item.icon />
                     <span>{item.label}</span>
