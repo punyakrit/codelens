@@ -30,7 +30,7 @@ function page() {
         reset();
       },
       onError: (error) => {
-        console.log(error);
+        toast.error(error.message);
       },
     });
   }
@@ -76,7 +76,7 @@ function page() {
                 placeholder="Github Token (optional)"
               />
             </div>
-            <Button type="submit" className="mt-2">
+            <Button type="submit" className="mt-2" disabled={createProject.isPending}>
               Create Project
             </Button>
           </form>
