@@ -96,7 +96,7 @@ function AppSidebar() {
                     href={item.url}
                     className={`${pathname === item.url ? "bg-sidebar-primary/30" : ""} flex list-none items-center hover:bg-sidebar-primary/10`}
                   >
-                    <item.icon />
+                    <item.icon  className="text-primary"/>
                     <span>{item.label}</span>
                   </Link>
                 </SidebarMenuButton>
@@ -128,7 +128,7 @@ function AppSidebar() {
                   {open ? (
                     <Button
                       size="sm"
-                      className="mt-2 flex items-center gap-2"
+                      className="mt-2 flex items-center gap-2 text-primary"
                       variant="secondary"
                     >
                       <PlusIcon />

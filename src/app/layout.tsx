@@ -4,6 +4,7 @@ import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 
 import { ClerkProvider } from "@clerk/nextjs";
+import { TRPCReactProvider } from "@/trpc/react";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -20,11 +21,17 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider  appearance={{
+      layout: {
+        unsafe_disableDevelopmentModeWarnings: true,
+      },
+    }}>
 
     <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
       <body>
+      <TRPCReactProvider>
         {children}
+        </TRPCReactProvider>
       </body>
     </html>
     </ClerkProvider>
