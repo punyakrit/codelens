@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useRefresh from "@/hooks/use-refresh";
 import { api } from "@/trpc/react";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -17,7 +18,7 @@ interface formInputs {
 function page() {
   const { register, handleSubmit, reset } = useForm<formInputs>();
   const createProject = api.project.createProject.useMutation();
-
+const refresh = useRefresh();
 
   function onSubmit(data: formInputs) {
     createProject.mutate({
@@ -27,6 +28,7 @@ function page() {
     },{
       onSuccess: () => {
         toast.success("Project created successfully");
+        refresh();
         reset();
       },
       onError: (error) => {

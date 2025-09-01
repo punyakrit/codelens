@@ -1,12 +1,13 @@
 "use client"
+import useProject from '@/hooks/use-project';
 import { useUser } from '@clerk/nextjs'
 import React from 'react'
 
 function Page() {
-    const {user } = useUser()
+  const { project } = useProject();
   return (
     <div>
-        {user?.firstName}
+      {JSON.stringify(project)}
     </div>
   )
 }
