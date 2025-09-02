@@ -11,38 +11,51 @@ datasource db {
 }
 
 model User {
-    id           String   @id @default(uuid())
-    createdAt    DateTime @default(now())
-    updatedAt    DateTime @updatedAt
-    imageUrl     String?
-    firstName    String?
-    lastName     String?
-    emailAddress String   @unique
-    credits      Int      @default(150)
+    id            String          @id @default(uuid())
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+    imageUrl      String?
+    firstName     String?
+    lastName      String?
+    emailAddress  String          @unique
+    credits       Int             @default(150)
     userToProject UserToProject[]
 }
 
-
 model Project {
-    id           String   @id @default(uuid())
-    createdAt    DateTime @default(now())
-    updatedAt    DateTime @updatedAt
-    name         String
-    repoUrl      String
-    githubToken  String?
-    deletedAt    DateTime?
+    id            String          @id @default(uuid())
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+    name          String
+    repoUrl       String
+    githubToken   String?
+    deletedAt     DateTime?
     userToProject UserToProject[]
-    
+    commit        Commit[]
 }
 
 model UserToProject {
-    id           String   @id @default(uuid())
-    createdAt    DateTime @default(now())
-    updatedAt    DateTime @updatedAt
-    userId       String
-    projectId    String
-    user         User     @relation(fields: [userId], references: [id] , onDelete: Cascade)
-    project      Project  @relation(fields: [projectId], references: [id] , onDelete: Cascade)
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    userId    String
+    projectId String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
     @@unique([userId, projectId])
+}
+
+model Commit {
+    id                    String   @id @default(uuid())
+    createdAt             DateTime @default(now())
+    updatedAt             DateTime @updatedAt
+    projectId             String
+    project               Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    commitHash            String
+    commitMessage         String
+    commitAuthorName      String
+    commitAuthorAvatarUrl String
+    commitDate            DateTime
+    summary               String
 }
