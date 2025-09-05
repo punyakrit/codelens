@@ -7,7 +7,6 @@ export const octokit = new Octokit({
 });
 
 
-const githubUrl = "https://github.com/punyakrit/pulse"
 
 type Response = {
     commitHash: string;
@@ -72,7 +71,6 @@ export const pollCommits = async (projectId: string) => {
     return commits
 }
 
-pollCommits("9fa39254-05a7-4b37-b360-5713b2deb75c")
 
 
 async function summarizeCommits(githubUrl: string, commitsHashes: string) {
@@ -96,10 +94,13 @@ async function fetchProjectGithubUrl(projectId: string) {
             repoUrl: true,
         }
     })
-    if (!project?.repoUrl) {
-        throw new Error("Project not found")
+    if (!project) {
+        throw new Error(`Project with ID ${projectId} not found`)
     }
-    return { githubUrl: project?.repoUrl }
+    if (!project.repoUrl) {
+        throw new Error(`Project ${projectId} has no repository URL configured`)
+    }
+    return { githubUrl: project.repoUrl }
 }
 
 
