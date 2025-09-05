@@ -37,7 +37,10 @@ export const getCommitsHash = async (githubUrl: string): Promise<Response[]> => 
 }
 
 export const pollCommits = async (projectId: string) => {
-    const { project, githubUrl } = await fetchProjectGithubUrl(projectId)
+    const {  githubUrl } = await fetchProjectGithubUrl(projectId)
+    // if(!githubUrl){
+    //     throw Error("URL not there")
+    // }
     const commitsHashes = await getCommitsHash(githubUrl)
     const unprocessedCommits = await filterUnprocessedCommits(projectId, commitsHashes)
     const summaryResponses = await Promise.allSettled(unprocessedCommits.map((commit)=>{
@@ -49,6 +52,7 @@ export const pollCommits = async (projectId: string) => {
         }
         return ""
     })
+    console.log(summaries.length, "length added")
 
     const commits = await db.commit.createMany({
         data: summaries.map((summary,index) =>{
@@ -92,10 +96,10 @@ async function fetchProjectGithubUrl(projectId: string) {
             repoUrl: true,
         }
     })
-    if (!project) {
+    if (!project?.repoUrl) {
         throw new Error("Project not found")
     }
-    return { project, githubUrl: project?.repoUrl }
+    return { githubUrl: project?.repoUrl }
 }
 
 
