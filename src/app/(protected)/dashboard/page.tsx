@@ -1,4 +1,5 @@
 "use client";
+import CommitLog from "@/components/dashboard/CommitLog";
 import useProject from "@/hooks/use-project";
 import { useUser } from "@clerk/nextjs";
 import { ExternalLink, Github } from "lucide-react";
@@ -9,7 +10,7 @@ function Page() {
   const { project } = useProject();
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-y-4 w-full">
         <div className="bg-primary flex w-fit items-center rounded-md px-4 py-3">
           <Github className="size-5 text-white" />
           <div className="ml-2">
@@ -41,7 +42,7 @@ function Page() {
         
       </div>
       <div className="mt-8">
-
+      <CommitLog/>
       </div>
     </div>
   );
