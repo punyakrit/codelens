@@ -52,10 +52,12 @@ model Commit {
     updatedAt             DateTime @updatedAt
     projectId             String
     project               Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-    commitHash            String
+    commitHash            String   @unique
     commitMessage         String
     commitAuthorName      String
     commitAuthorAvatarUrl String
     commitDate            DateTime
     summary               String
+
+    @@unique([projectId, commitHash])
 }

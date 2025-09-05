@@ -25,7 +25,7 @@ export const getCommitsHash = async (githubUrl: string): Promise<Response[]> => 
         owner: owner,
         repo: repo,
     })
-    const sortedCommits = data.sort((a: any, b: any) => new Date(b.commit.author.date).getTime() - new Date(a.commit.committer.date).getTime()) as any[]
+    const sortedCommits = data.sort((a: any, b: any) => new Date(b.commit.author.date).getTime() - new Date(a.commit.author.date).getTime()) as any[]
     return sortedCommits.slice(0, 10).map((commit) => ({
         commitHash: commit.sha ?? "",
         commitMessage: commit?.commit?.message ?? "",
@@ -53,9 +53,9 @@ export const pollCommits = async (projectId: string) => {
     })
     console.log(summaries.length, "length added")
 
-    const commits = await db.commit.createMany({
-        data: summaries.map((summary,index) =>{
-            return {
+    const commits = await Promise.allSettled(summaries.map((summary,index) =>{
+        return db.commit.create({
+            data: {
                 projectId: projectId,
                 commitHash : unprocessedCommits[index]!.commitHash,
                 commitMessage: unprocessedCommits[index]!.commitMessage,
@@ -63,10 +63,9 @@ export const pollCommits = async (projectId: string) => {
                 commitAuthorAvatarUrl: unprocessedCommits[index]!.commitAuthorAvatarUrl,
                 commitDate: unprocessedCommits[index]!.commitDate,
                 summary: summary
-
             }
-        })
-    })
+        }).catch(() => null)
+    }))
 
     return commits
 }
