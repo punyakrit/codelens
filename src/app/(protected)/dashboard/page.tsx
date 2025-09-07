@@ -4,10 +4,14 @@ import useProject from "@/hooks/use-project";
 import { useUser } from "@clerk/nextjs";
 import { ExternalLink, Github } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import React from "react";
 
 function Page() {
   const { project } = useProject();
+  if(!project){
+    redirect("/create")
+  }
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-y-4 w-full">
