@@ -21,6 +21,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ai-sdk/google": "^2.0.13",
+    "@ai-sdk/rsc": "^1.0.37",
     "@clerk/nextjs": "^6.31.6",
     "@google/genai": "^1.17.0",
     "@google/generative-ai": "^0.24.1",
@@ -59,6 +61,8 @@
     "@trpc/client": "^11.0.0",
     "@trpc/react-query": "^11.0.0",
     "@trpc/server": "^11.0.0",
+    "@uiw/react-md-editor": "^4.0.8",
+    "ai": "^5.0.37",
     "axios": "^1.11.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
