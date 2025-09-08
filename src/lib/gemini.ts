@@ -1,17 +1,12 @@
+import { Document } from "@langchain/core/documents"
+import { openrouterSingleMessage } from "./openrouter"
 import { GoogleGenerativeAI } from "@google/generative-ai"
 
 const genAi = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
-const model = genAi.getGenerativeModel({
-    model: "gemini-2.5-flash-lite"
-})
-
 
 export async function getSummariseCommit(diff: String) {
-    //https://github.com/punyakrit/pulse/commit/ccb5bfb7f1c32a118b9eec800cde9e821777b044.diff
-
-    const response = await model.generateContent([
-        `You are an expert programmer, and you are trying to summarize a git diff.
+    const prompt = `You are an expert programmer, and you are trying to summarize a git diff.
 Reminders about the git diff format:
 For every file, there are a few metadata lines, like (for example):
 
@@ -46,9 +41,44 @@ because there were more than two relevant files in the hypothetical commit.
 Do not include parts of the example in your summary.
 It is given only as an example of appropriate comments.
 
-Please summarise the following diff file: \n\n${diff}
-`
-    ])
+Please summarise the following diff file: \n\n${diff}`
 
-    return response.response.text()
+    return openrouterSingleMessage(prompt)
 }
+
+
+export async function getSummariseCode(doc: Document) {
+    console.log("Summarising code for ", doc.metadata.source)
+    try {
+        const code = doc.pageContent.slice(0, 10000)
+
+        const prompt = `You are an intelligent senior software engineer who specializes in onboarding junior software engineers onto projects.
+You are onboarding a junior software engineer and explaining to them the purpose of the ${doc.metadata.source} file.
+Here is the code: 
+---
+${code}
+---
+Give a summary no more than 100 words of the code above.`
+
+        return openrouterSingleMessage(prompt)
+    } catch (error) {
+        console.error("Error summarising code for ", doc.metadata.source, error)
+        return ""
+    }
+}
+
+export async function getGenerateEmbeddings(summary: String) {
+    console.log("Generating embeddings")
+    try {
+        const model = genAi.getGenerativeModel({ model: "gemini-embedding-001" })
+        const result = await model.embedContent(summary as string)
+        console.log("Original embedding dimensions:", result.embedding.values.length)
+        const reducedEmbedding = result.embedding.values.slice(0, 768)
+        console.log("Reduced embedding dimensions:", reducedEmbedding.length)
+        return reducedEmbedding
+    } catch (error) {
+        console.error("Error generating embeddings:", error)
+        return []
+    }
+}
+
