@@ -1,5 +1,6 @@
 "use client";
 import CommitLog from "@/components/dashboard/CommitLog";
+import AskQuestion from "@/components/dashboard/AskQuestion";
 import useProject from "@/hooks/use-project";
 import { useUser } from "@clerk/nextjs";
 import { ExternalLink, Github } from "lucide-react";
@@ -9,9 +10,8 @@ import React from "react";
 
 function Page() {
   const { project } = useProject();
-  if(!project){
-    redirect("/create")
-  }
+
+
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-y-4 w-full">
@@ -40,7 +40,7 @@ function Page() {
       </div>
       <div className="mt-4">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-          Asking questions
+          <AskQuestion/>
           meetings
         </div>
         

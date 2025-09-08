@@ -1,8 +1,8 @@
 import { Document } from "@langchain/core/documents"
 import { openrouterSingleMessage } from "./openrouter"
-import { GoogleGenerativeAI } from "@google/generative-ai"
+import { GoogleGenAI } from "@google/genai";
 
-const genAi = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
+const genAi = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! })
 
 
 export async function getSummariseCommit(diff: String) {
@@ -70,12 +70,19 @@ Give a summary no more than 100 words of the code above.`
 export async function getGenerateEmbeddings(summary: String) {
     console.log("Generating embeddings")
     try {
-        const model = genAi.getGenerativeModel({ model: "gemini-embedding-001" })
-        const result = await model.embedContent(summary as string)
-        console.log("Original embedding dimensions:", result.embedding.values.length)
-        const reducedEmbedding = result.embedding.values.slice(0, 768)
-        console.log("Reduced embedding dimensions:", reducedEmbedding.length)
-        return reducedEmbedding
+        const response = await genAi.models.embedContent({
+            model: 'gemini-embedding-001',
+            contents: summary as string,
+            config: {
+                outputDimensionality: 768,
+            },
+        });
+        if (!response?.embeddings) {
+            return []
+        }
+        const embeddingLength = response?.embeddings[0]?.values;
+
+        return embeddingLength
     } catch (error) {
         console.error("Error generating embeddings:", error)
         return []
