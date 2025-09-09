@@ -16,6 +16,8 @@ import { Code2, Copy, Check } from "lucide-react";
 import { askQuestion } from "@/actions/question";
 import { readStreamableValue } from "@ai-sdk/rsc";
 import CodeReference from "./CodeReference";
+import { api } from "@/trpc/react";
+import { toast } from "sonner";
 
 function AskQuestion() {
   const { project } = useProject();
@@ -26,6 +28,7 @@ function AskQuestion() {
     { fileName: string; sourceCode: string; summary: string }[]
   >([]);
   const [output, setOutput] = useState<string>("");
+  const saveAnswer = api.project.saveAnswer.useMutation();
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -53,11 +56,12 @@ function AskQuestion() {
     }
   }
 
-
   return (
     <>
       <style jsx>{`
-        .markdown-content h1, .markdown-content h2, .markdown-content h3 {
+        .markdown-content h1,
+        .markdown-content h2,
+        .markdown-content h3 {
           margin-top: 1rem;
           margin-bottom: 0.5rem;
           font-weight: 600;
@@ -84,7 +88,8 @@ function AskQuestion() {
           background-color: transparent;
           padding: 0;
         }
-        .markdown-content ul, .markdown-content ol {
+        .markdown-content ul,
+        .markdown-content ol {
           margin: 0.75rem 0;
           padding-left: 1.5rem;
         }
@@ -99,36 +104,52 @@ function AskQuestion() {
         }
       `}</style>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[90vw] max-w-[95vw] h-[80vh] flex flex-col">
+        <DialogContent className="flex h-[80vh] max-w-[95vw] flex-col sm:max-w-[90vw]">
           <DialogHeader>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center gap-5">
               <DialogTitle className="flex items-center gap-2 text-2xl font-bold">
                 CodeLens <Code2 />
               </DialogTitle>
-             
+              <Button disabled={saveAnswer.isPending} variant="outline" onClick={()=>{
+                saveAnswer.mutate({
+                  projectId: project?.id!,
+                  question: question,
+                  answer: output,
+                  fileReference: filesRefered
+                },{
+                  onSuccess:()=>{
+                    toast.success("Answer saved successfully");
+                  },
+                  onError:(error)=>{
+                    toast.error(error.message);
+                  }
+                })
+              }}>
+                Save Answer
+              </Button>
             </div>
           </DialogHeader>
-          <DialogDescription className="space-y-4 flex-1 overflow-scroll">
-            <div className="min-h-[200px] flex-1 overflow-y-auto border rounded-lg p-4 bg-gray-50">
-              
-                <div className="markdown-content">
-                  <MDEditor.Markdown
-                    source={output}
-                    className="!bg-transparent !text-gray-900"
-                    style={{
-                      backgroundColor: 'transparent',
-                      color: '#111827'
-                    }}
-                  />
-                </div>
-                <CodeReference fileReference={filesRefered} />
-            
+          <DialogDescription className="flex-1 space-y-4 overflow-scroll">
+            <div className="min-h-[200px] flex-1 overflow-y-auto rounded-lg border bg-gray-50 p-4">
+              <div className="markdown-content">
+                <MDEditor.Markdown
+                  source={output}
+                  className="!bg-transparent !text-gray-900"
+                  style={{
+                    backgroundColor: "transparent",
+                    color: "#111827",
+                  }}
+                />
+              </div>
+              <CodeReference fileReference={filesRefered} />
             </div>
-            
-          
-            
+
             <div className="flex justify-end pt-4">
-              <Button type="button" onClick={() => setOpen(false)} variant="outline">
+              <Button
+                type="button"
+                onClick={() => setOpen(false)}
+                variant="outline"
+              >
                 Close
               </Button>
             </div>

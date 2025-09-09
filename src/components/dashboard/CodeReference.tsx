@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {Prism as SyntaxHighlighter} from "react-syntax-highlighter";
-import {materialDark} from "react-syntax-highlighter/dist/esm/styles/prism";
+import {solarizedDarkAtom} from "react-syntax-highlighter/dist/esm/styles/prism";
 type FileReference = {
   fileName: string;
   sourceCode: string;
@@ -33,7 +33,7 @@ function CodeReference({ fileReference }: { fileReference: FileReference }) {
             value={file.fileName}
             className="max-h-[50vh] max-w-full overflow-scroll rounded-md"
           >
-            <SyntaxHighlighter style={materialDark}>
+            <SyntaxHighlighter style={solarizedDarkAtom}>
               {file.sourceCode}
             </SyntaxHighlighter>
           </TabsContent>
