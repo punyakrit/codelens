@@ -1,23 +1,23 @@
 import { z } from "zod";
-import { createTRPCRouter,protectedProcedure,publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { pollCommits } from "@/lib/github";
 import { indexGithubRepository } from "@/lib/github-loader";
 
 export const projectRouter = createTRPCRouter({
-    createProject : protectedProcedure.input(
+    createProject: protectedProcedure.input(
         z.object({
             name: z.string(),
             repoUrl: z.string(),
             githubToken: z.string().optional(),
         })
-    ).mutation(async ({ ctx,input }) => {
+    ).mutation(async ({ ctx, input }) => {
         const project = await ctx.db.project.create({
-            data:{
+            data: {
                 name: input.name,
                 repoUrl: input.repoUrl,
                 githubToken: input.githubToken,
-                userToProject:{
-                    create:{
+                userToProject: {
+                    create: {
                         userId: ctx.user.userId!,
                     }
                 }
@@ -27,11 +27,11 @@ export const projectRouter = createTRPCRouter({
         await pollCommits(project.id)
         return project;
     }),
-    getProjects : protectedProcedure.query(async ({ ctx }) => {
+    getProjects: protectedProcedure.query(async ({ ctx }) => {
         const projects = await ctx.db.project.findMany({
-            where:{
-                userToProject:{
-                    some:{
+            where: {
+                userToProject: {
+                    some: {
                         userId: ctx.user.userId!,
                     }
                 },
@@ -42,7 +42,7 @@ export const projectRouter = createTRPCRouter({
     }),
     getCommits: protectedProcedure.input(z.object({
         projectId: z.string()
-    })).query(async ({ctx, input}) => {
+    })).query(async ({ ctx, input }) => {
         pollCommits(input.projectId).then().catch(console.error)
         return await ctx.db.commit.findMany({
             where: { projectId: input.projectId },
@@ -54,9 +54,9 @@ export const projectRouter = createTRPCRouter({
         question: z.string(),
         answer: z.string(),
         fileReference: z.any()
-    })).mutation(async ({ctx, input}) => {
+    })).mutation(async ({ ctx, input }) => {
         return await ctx.db.question.create({
-            data:{
+            data: {
                 projectId: input.projectId,
                 question: input.question,
                 answer: input.answer,
@@ -64,7 +64,18 @@ export const projectRouter = createTRPCRouter({
                 fileReference: input.fileReference
             }
         })
+    }),
+    getQuestions: protectedProcedure.input(z.object({
+        projectId: z.string()
+    })).query(async ({ ctx, input }) => {
+        return await ctx.db.question.findMany({
+            where: { projectId: input.projectId },
+            include: {
+                user: true
+            },
+            orderBy: { createdAt: "desc" }
+        })
     })
-   
-    
+
+
 })

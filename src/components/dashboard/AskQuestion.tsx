@@ -18,6 +18,7 @@ import { readStreamableValue } from "@ai-sdk/rsc";
 import CodeReference from "./CodeReference";
 import { api } from "@/trpc/react";
 import { toast } from "sonner";
+import useRefresh from "@/hooks/use-refresh";
 
 function AskQuestion() {
   const { project } = useProject();
@@ -29,6 +30,8 @@ function AskQuestion() {
   >([]);
   const [output, setOutput] = useState<string>("");
   const saveAnswer = api.project.saveAnswer.useMutation();
+
+  const refetchQuestions = useRefresh()
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -119,6 +122,7 @@ function AskQuestion() {
                 },{
                   onSuccess:()=>{
                     toast.success("Answer saved successfully");
+                    refetchQuestions();
                   },
                   onError:(error)=>{
                     toast.error(error.message);
