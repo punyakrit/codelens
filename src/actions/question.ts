@@ -67,7 +67,7 @@ Answer in markdown syntax, with code snippets if needed. Be as detailed as possi
             })
 
             for await (const text of textStream) {
-                stream.append(text)
+                stream.update(text)
             }
             stream.done()
         }

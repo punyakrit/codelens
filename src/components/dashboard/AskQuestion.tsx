@@ -3,6 +3,7 @@ import useProject from "@/hooks/use-project";
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { Textarea } from "../ui/textarea";
+import MDEditor from "@uiw/react-md-editor";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -11,9 +12,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-import { Code2 } from "lucide-react";
+import { Code2, Copy, Check } from "lucide-react";
 import { askQuestion } from "@/actions/question";
 import { readStreamableValue } from "@ai-sdk/rsc";
+import CodeReference from "./CodeReference";
 
 function AskQuestion() {
   const { project } = useProject();
@@ -33,6 +35,8 @@ function AskQuestion() {
     setFilesRefered([]); // Reset files
     try {
       const { output, filesRefered } = await askQuestion(question, project.id);
+      setOpen(true);
+
       setFilesRefered(filesRefered);
       for await (const text of readStreamableValue(output)) {
         if (text) {
@@ -41,29 +45,93 @@ function AskQuestion() {
       }
     } catch (error) {
       console.error("Error asking question:", error);
-      setOutput("Sorry, there was an error processing your question. Please try again.");
+      setOutput(
+        "Sorry, there was an error processing your question. Please try again.",
+      );
     } finally {
       setLoading(false);
-      setOpen(true);
     }
   }
+
+
   return (
     <>
+      <style jsx>{`
+        .markdown-content h1, .markdown-content h2, .markdown-content h3 {
+          margin-top: 1rem;
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+        }
+        .markdown-content p {
+          margin-bottom: 0.75rem;
+          line-height: 1.6;
+        }
+        .markdown-content code {
+          background-color: #f3f4f6;
+          padding: 0.125rem 0.25rem;
+          border-radius: 0.25rem;
+          font-size: 0.875rem;
+        }
+        .markdown-content pre {
+          background-color: #1f2937;
+          color: #f9fafb;
+          padding: 1rem;
+          border-radius: 0.5rem;
+          overflow-x: auto;
+          margin: 1rem 0;
+        }
+        .markdown-content pre code {
+          background-color: transparent;
+          padding: 0;
+        }
+        .markdown-content ul, .markdown-content ol {
+          margin: 0.75rem 0;
+          padding-left: 1.5rem;
+        }
+        .markdown-content li {
+          margin-bottom: 0.25rem;
+        }
+        .markdown-content blockquote {
+          border-left: 4px solid #d1d5db;
+          padding-left: 1rem;
+          margin: 1rem 0;
+          color: #6b7280;
+        }
+      `}</style>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[90vw] max-w-[95vw] h-[80vh] flex flex-col">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-2xl font-bold">
-              CodeLens <Code2 />
-            </DialogTitle>
+            <div className="flex items-center justify-between">
+              <DialogTitle className="flex items-center gap-2 text-2xl font-bold">
+                CodeLens <Code2 />
+              </DialogTitle>
+             
+            </div>
           </DialogHeader>
-          <DialogDescription>
-            {output}
-            {filesRefered.map((file) => (
-              <div key={file.fileName}>
-                <h3>{file.fileName}</h3>
-                <p>{file.summary}</p>
-              </div>
-            ))}
+          <DialogDescription className="space-y-4 flex-1 overflow-scroll">
+            <div className="min-h-[200px] flex-1 overflow-y-auto border rounded-lg p-4 bg-gray-50">
+              
+                <div className="markdown-content">
+                  <MDEditor.Markdown
+                    source={output}
+                    className="!bg-transparent !text-gray-900"
+                    style={{
+                      backgroundColor: 'transparent',
+                      color: '#111827'
+                    }}
+                  />
+                </div>
+                <CodeReference fileReference={filesRefered} />
+            
+            </div>
+            
+          
+            
+            <div className="flex justify-end pt-4">
+              <Button type="button" onClick={() => setOpen(false)} variant="outline">
+                Close
+              </Button>
+            </div>
           </DialogDescription>
         </DialogContent>
       </Dialog>
@@ -78,7 +146,7 @@ function AskQuestion() {
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
             />
-            <Button type="submit" className="mt-4">
+            <Button type="submit" className="mt-4" disabled={loading}>
               Ask CodeLens
             </Button>
           </form>
