@@ -12,12 +12,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-import { Code2, Copy, Check } from "lucide-react";
+import { Code2 } from "lucide-react";
 import { askQuestion } from "@/actions/question";
 import { readStreamableValue } from "@ai-sdk/rsc";
 import CodeReference from "./CodeReference";
 import { api } from "@/trpc/react";
-import { toast } from "sonner";
 import useRefresh from "@/hooks/use-refresh";
 
 function AskQuestion() {
@@ -29,9 +28,34 @@ function AskQuestion() {
     { fileName: string; sourceCode: string; summary: string }[]
   >([]);
   const [output, setOutput] = useState<string>("");
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const saveAnswer = api.project.saveAnswer.useMutation();
 
   const refetchQuestions = useRefresh()
+
+  const handleAutoSave = async () => {
+    if (hasUnsavedChanges && output && question && project?.id) {
+      try {
+        await saveAnswer.mutateAsync({
+          projectId: project.id,
+          question: question,
+          answer: output,
+          fileReference: filesRefered
+        });
+        refetchQuestions();
+        setHasUnsavedChanges(false);
+      } catch (error) {
+        console.error("Auto-save failed:", error);
+      }
+    }
+  };
+
+  const handleDialogClose = async (open: boolean) => {
+    if (!open && hasUnsavedChanges) {
+      await handleAutoSave();
+    }
+    setOpen(open);
+  };
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -39,6 +63,7 @@ function AskQuestion() {
     setLoading(true);
     setOutput(""); // Reset output
     setFilesRefered([]); // Reset files
+    setHasUnsavedChanges(false); // Reset unsaved changes
     try {
       const { output, filesRefered } = await askQuestion(question, project.id);
       setOpen(true);
@@ -49,6 +74,7 @@ function AskQuestion() {
           setOutput((prev) => prev + text);
         }
       }
+      setHasUnsavedChanges(true); // Mark as having unsaved changes
     } catch (error) {
       console.error("Error asking question:", error);
       setOutput(
@@ -106,31 +132,14 @@ function AskQuestion() {
           color: #6b7280;
         }
       `}</style>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={handleDialogClose}>
         <DialogContent className="flex h-[80vh] max-w-[95vw] flex-col sm:max-w-[90vw]">
           <DialogHeader>
             <div className="flex items-center gap-5">
               <DialogTitle className="flex items-center gap-2 text-2xl font-bold">
                 CodeLens <Code2 />
               </DialogTitle>
-              <Button disabled={saveAnswer.isPending} variant="outline" onClick={()=>{
-                saveAnswer.mutate({
-                  projectId: project?.id!,
-                  question: question,
-                  answer: output,
-                  fileReference: filesRefered
-                },{
-                  onSuccess:()=>{
-                    toast.success("Answer saved successfully");
-                    refetchQuestions();
-                  },
-                  onError:(error)=>{
-                    toast.error(error.message);
-                  }
-                })
-              }}>
-                Save Answer
-              </Button>
+            
             </div>
           </DialogHeader>
           <DialogDescription className="flex-1 space-y-4 overflow-scroll">
@@ -151,7 +160,7 @@ function AskQuestion() {
             <div className="flex justify-end pt-4">
               <Button
                 type="button"
-                onClick={() => setOpen(false)}
+                onClick={() => handleDialogClose(false)}
                 variant="outline"
               >
                 Close

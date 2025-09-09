@@ -62,7 +62,7 @@ function page() {
           <SheetHeader>
             <SheetTitle>{question.question}</SheetTitle>
           </SheetHeader>
-          <SheetDescription className="p-4">
+          <SheetDescription className="p-4 overflow-y-scroll">
             <MDEditor.Markdown
               source={question.answer}
               className="!bg-transparent !text-gray-900"

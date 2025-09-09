@@ -13,27 +13,36 @@ function CodeReference({ fileReference }: { fileReference: FileReference }) {
   const [tab, setTab] = useState(fileReference?.[0]?.fileName ?? "");
   if (fileReference.length === 0) return null;
   return (
-    <div className="max-w-full mt-10">
-      <Tabs value={tab} onValueChange={setTab}>
-        <div className="flex gap-2 overflow-scroll rounded-md bg-gray-200 p-1">
+    <div className="w-full">
+      <h4 className="font-semibold mb-3 text-gray-900">Referenced Files:</h4>
+      <Tabs value={tab} onValueChange={setTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-1 h-auto p-1 bg-gray-100">
           {fileReference.map((file) => (
-            <button
-              onClick={() => setTab(file.fileName)}
+            <TabsTrigger
               key={file.fileName}
-              className={`rounded-md px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${tab === file.fileName ? "bg-primary text-primary-foreground" : "hover:bg-muted text-muted-foreground"} `}
               value={file.fileName}
+              className="text-xs px-2 py-1.5 h-auto whitespace-nowrap overflow-hidden text-ellipsis"
             >
               {file.fileName}
-            </button>
+            </TabsTrigger>
           ))}
-        </div>
+        </TabsList>
         {fileReference.map((file) => (
           <TabsContent
             key={file.fileName}
             value={file.fileName}
-            className="max-h-[50vh] max-w-full overflow-scroll rounded-md"
+            className="mt-4 max-h-[60vh] overflow-y-auto rounded-md border"
           >
-            <SyntaxHighlighter style={solarizedDarkAtom}>
+            <div className="p-2">
+              <h5 className="font-medium text-sm text-gray-900 mb-2">{file.fileName}</h5>
+              <p className="text-xs text-gray-600 mb-3">{file.summary}</p>
+            </div>
+            <SyntaxHighlighter 
+              style={solarizedDarkAtom}
+              className="!m-0 !rounded-none"
+              showLineNumbers
+              wrapLines
+            >
               {file.sourceCode}
             </SyntaxHighlighter>
           </TabsContent>
