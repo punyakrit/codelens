@@ -1,17 +1,17 @@
 "use client";
 import useProject from "@/hooks/use-project";
 import React, { useState } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
-import { Textarea } from "../ui/textarea";
+import { Card, CardHeader, CardTitle, CardContent } from "../../ui/card";
+import { Textarea } from "../../ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "../ui/dialog";
+} from "../../ui/dialog";
 import { Code2 } from "lucide-react";
 import { askQuestion } from "@/actions/question";
 import { readStreamableValue } from "@ai-sdk/rsc";

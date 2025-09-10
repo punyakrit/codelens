@@ -10,9 +10,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import AskQuestion from "@/components/dashboard/AskQuestion";
+import AskQuestion from "@/components/dashboard/global/AskQuestion";
 import MDEditor from "@uiw/react-md-editor";
-import CodeReference from "@/components/dashboard/CodeReference";
+import CodeReference from "@/components/dashboard/global/CodeReference";
 
 function page() {
   const { project } = useProject();

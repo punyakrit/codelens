@@ -1,7 +1,7 @@
 "use client";
 import ArchieveButton from "@/components/dashboard/ArchieveButton";
 import CommitLog from "@/components/dashboard/CommitLog";
-import AskQuestion from "@/components/dashboard/AskQuestion";
+import AskQuestion from "@/components/dashboard/global/AskQuestion";
 import useProject from "@/hooks/use-project";
 import { useUser } from "@clerk/nextjs";
 import { ExternalLink, Github } from "lucide-react";
