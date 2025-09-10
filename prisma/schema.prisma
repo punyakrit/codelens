@@ -23,6 +23,7 @@ model User {
     credits       Int             @default(150)
     userToProject UserToProject[]
     questions     Question[]
+    stripeTransaction StripeTransaction[]
 }
 
 model Project {
@@ -90,4 +91,14 @@ model Question {
     userId    String
     user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+
+model StripeTransaction {
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    userId    String
+    credits    Int
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

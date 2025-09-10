@@ -29,7 +29,7 @@ export async function checkOutSession(credits: number) {
         ],
         customer_creation: "always",
         mode:'payment',
-        success_url: `${process.env.NEXT_PUBLIC_APP_URL}/credits`,
+        success_url: `${process.env.NEXT_PUBLIC_APP_URL}/create`,
         cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/billing`,
         client_reference_id: userId.toString(),
         metadata: {
