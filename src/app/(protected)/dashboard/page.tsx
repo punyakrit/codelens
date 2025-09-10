@@ -1,4 +1,5 @@
 "use client";
+import ArchieveButton from "@/components/dashboard/ArchieveButton";
 import CommitLog from "@/components/dashboard/CommitLog";
 import AskQuestion from "@/components/dashboard/AskQuestion";
 import useProject from "@/hooks/use-project";
@@ -35,7 +36,7 @@ function Page() {
 
         </div>
         <div className="flex items-center gap-x-4">
-        buttons
+        <ArchieveButton/> 
         </div>
       </div>
       <div className="mt-4">
