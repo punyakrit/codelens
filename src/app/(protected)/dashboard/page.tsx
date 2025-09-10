@@ -1,6 +1,7 @@
 "use client";
 import ArchieveButton from "@/components/dashboard/ArchieveButton";
 import CommitLog from "@/components/dashboard/CommitLog";
+import InviteButton from "@/components/dashboard/InviteButton";
 import AskQuestion from "@/components/dashboard/global/AskQuestion";
 import useProject from "@/hooks/use-project";
 import { useUser } from "@clerk/nextjs";
@@ -36,6 +37,7 @@ function Page() {
 
         </div>
         <div className="flex items-center gap-x-4">
+          <InviteButton/>
         <ArchieveButton/> 
         </div>
       </div>
