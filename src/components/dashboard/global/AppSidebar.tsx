@@ -40,8 +40,8 @@ const items = [
     icon: MessageCircleQuestion,
   },
   {
-    label: "Meetings",
-    url: "/meetings",
+    label: "Pull Requests",
+    url: "/pr",
     icon: MenuSquare,
   },
   {

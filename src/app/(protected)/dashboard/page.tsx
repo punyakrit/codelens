@@ -2,6 +2,7 @@
 import ArchieveButton from "@/components/dashboard/ArchieveButton";
 import CommitLog from "@/components/dashboard/CommitLog";
 import InviteButton from "@/components/dashboard/InviteButton";
+import PullRequestCard from "@/components/dashboard/PullRequestCard";
 import TeamMembers from "@/components/dashboard/TeamMembers";
 import AskQuestion from "@/components/dashboard/global/AskQuestion";
 import useProject from "@/hooks/use-project";
@@ -46,7 +47,7 @@ function Page() {
       <div className="mt-4">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <AskQuestion/>
-          meetings
+          <PullRequestCard/>
         </div>
         
       </div>
