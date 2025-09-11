@@ -87,49 +87,79 @@ function AskQuestion() {
 
   return (
     <>
-      <style jsx>{`
+      <style jsx global>{`
+        .markdown-content,
+        .markdown-content *,
+        .w-md-editor-text,
+        .w-md-editor-text * {
+          color: hsl(var(--foreground)) !important;
+        }
         .markdown-content h1,
         .markdown-content h2,
-        .markdown-content h3 {
+        .markdown-content h3,
+        .w-md-editor-text h1,
+        .w-md-editor-text h2,
+        .w-md-editor-text h3 {
           margin-top: 1rem;
           margin-bottom: 0.5rem;
           font-weight: 600;
+          color: hsl(var(--foreground)) !important;
         }
-        .markdown-content p {
+        .markdown-content p,
+        .w-md-editor-text p {
           margin-bottom: 0.75rem;
           line-height: 1.6;
+          color: hsl(var(--foreground)) !important;
         }
-        .markdown-content code {
-          background-color: #f3f4f6;
+        .markdown-content code,
+        .w-md-editor-text code {
+          background-color: hsl(var(--muted)) !important;
+          color: hsl(var(--foreground)) !important;
           padding: 0.125rem 0.25rem;
           border-radius: 0.25rem;
           font-size: 0.875rem;
         }
-        .markdown-content pre {
-          background-color: #1f2937;
-          color: #f9fafb;
+        .markdown-content pre,
+        .w-md-editor-text pre {
+          background-color: hsl(var(--muted)) !important;
+          color: hsl(var(--foreground)) !important;
           padding: 1rem;
           border-radius: 0.5rem;
           overflow-x: auto;
           margin: 1rem 0;
         }
-        .markdown-content pre code {
-          background-color: transparent;
+        .markdown-content pre code,
+        .w-md-editor-text pre code {
+          background-color: transparent !important;
           padding: 0;
+          color: hsl(var(--foreground)) !important;
         }
         .markdown-content ul,
-        .markdown-content ol {
+        .markdown-content ol,
+        .w-md-editor-text ul,
+        .w-md-editor-text ol {
           margin: 0.75rem 0;
           padding-left: 1.5rem;
+          color: hsl(var(--foreground)) !important;
         }
-        .markdown-content li {
+        .markdown-content li,
+        .w-md-editor-text li {
           margin-bottom: 0.25rem;
+          color: hsl(var(--foreground)) !important;
         }
-        .markdown-content blockquote {
-          border-left: 4px solid #d1d5db;
+        .markdown-content blockquote,
+        .w-md-editor-text blockquote {
+          border-left: 4px solid hsl(var(--border)) !important;
           padding-left: 1rem;
           margin: 1rem 0;
-          color: #6b7280;
+          color: hsl(var(--muted-foreground)) !important;
+        }
+        .code-highlight {
+          color: white;
+          
+        }
+        .copied {
+          color: hsl(var(--foreground)) !important;
         }
       `}</style>
       <Dialog open={open} onOpenChange={handleDialogClose}>
@@ -143,15 +173,11 @@ function AskQuestion() {
             </div>
           </DialogHeader>
           <DialogDescription className="flex-1 space-y-4 overflow-scroll">
-            <div className="min-h-[200px] flex-1 overflow-y-auto rounded-lg border bg-gray-50 p-4">
+            <div className="min-h-[200px] flex-1 overflow-y-auto rounded-lg border bg-background p-4">
               <div className="markdown-content">
                 <MDEditor.Markdown
                   source={output}
-                  className="!bg-transparent !text-gray-900"
-                  style={{
-                    backgroundColor: "transparent",
-                    color: "#111827",
-                  }}
+                  className="!bg-transparent"
                 />
               </div>
               <CodeReference fileReference={filesRefered} />

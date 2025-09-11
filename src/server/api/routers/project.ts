@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { pollCommits } from "@/lib/github";
-import { indexGithubRepository } from "@/lib/github-loader";
+import { checkCredits, indexGithubRepository } from "@/lib/github-loader";
 
 export const projectRouter = createTRPCRouter({
     createProject: protectedProcedure.input(
@@ -11,6 +11,17 @@ export const projectRouter = createTRPCRouter({
             githubToken: z.string().optional(),
         })
     ).mutation(async ({ ctx, input }) => {
+        const userCredits = await ctx.db.user.findUnique({
+            where: { id: ctx.user.userId! },
+            select: { credits: true }
+        })
+       const currentCredits = userCredits?.credits || 0
+       const fileCount = await checkCredits(input.repoUrl, input.githubToken)
+       if(currentCredits < fileCount) {
+        throw new Error("Insufficient credits")
+       }
+       
+
         const project = await ctx.db.project.create({
             data: {
                 name: input.name,
@@ -25,6 +36,10 @@ export const projectRouter = createTRPCRouter({
         })
         await indexGithubRepository(project.id, input.repoUrl, input.githubToken)
         await pollCommits(project.id)
+        await ctx.db.user.update({
+            where: { id: ctx.user.userId! },
+            data: { credits: { decrement: fileCount } }
+           })
         return project;
     }),
     getProjects: protectedProcedure.query(async ({ ctx }) => {
@@ -99,6 +114,17 @@ export const projectRouter = createTRPCRouter({
             where: { id: ctx.user.userId! },
             select: { credits: true }
         })
+    }),
+    checkCredits: protectedProcedure.input(z.object({
+        githubUrl: z.string(),
+        githubToken: z.string().optional()
+    })).mutation(async ({ ctx, input }) => {
+        const fileCount = await checkCredits(input.githubUrl, input.githubToken)
+        const userCredits = await ctx.db.user.findUnique({
+            where: { id: ctx.user.userId! },
+            select: { credits: true }
+        })
+        return { fileCount, userCredits: userCredits?.credits || 0 }
     })
 
 
