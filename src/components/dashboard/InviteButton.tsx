@@ -1,6 +1,6 @@
 "use client";
 import useProject from "@/hooks/use-project";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -15,6 +15,21 @@ import { Button } from "../ui/button";
 function InviteButton() {
   const { selectedProjectId } = useProject();
   const [open, setOpen] = useState(false);
+  const [inviteUrl, setInviteUrl] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setInviteUrl(`${window.location.origin}/join/${selectedProjectId}`);
+    }
+  }, [selectedProjectId]);
+
+  const handleCopyToClipboard = () => {
+    if (typeof window !== "undefined" && typeof navigator !== "undefined") {
+      navigator.clipboard.writeText(inviteUrl);
+      toast.success("Copied to clipboard");
+    }
+  };
+
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -28,13 +43,8 @@ function InviteButton() {
             <Input
               className="mt-4"
               readOnly
-              onClick={() => {
-                navigator.clipboard.writeText(
-                  `${window.location.origin}/join/${selectedProjectId}`,
-                );
-                toast.success("Copied to clipboard");
-              }}
-              value={`${window.location.origin}/join/${selectedProjectId}`}
+              onClick={handleCopyToClipboard}
+              value={inviteUrl}
             />
           </DialogHeader>
         </DialogContent>
