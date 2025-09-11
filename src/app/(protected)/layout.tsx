@@ -1,4 +1,5 @@
 import AppSidebar from "@/components/dashboard/global/AppSidebar";
+import SearchBar from "@/components/dashboard/global/SearchBar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { UserButton } from "@clerk/nextjs";
 import React from "react";
@@ -10,7 +11,7 @@ function layout({ children }: { children: React.ReactNode }) {
         <AppSidebar />
         <main className="m-2 w-full">
           <div className="border-sidebar-border bg-sidebar flex items-center gap-2 rounded-md border p-2 px-4 shadow">
-            {/* <SearchBar/> */}
+            <SearchBar/>
             <div className="ml-auto"></div>
             <UserButton />
           </div>
