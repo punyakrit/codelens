@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,8 +22,10 @@ import {
   Code2,
 } from "lucide-react";
 import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
 
 export default function LandingPage() {
+  const { isSignedIn } = useUser();
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Header */}
@@ -34,34 +37,34 @@ export default function LandingPage() {
             </div>
             <span className="text-xl font-bold text-slate-900">CodeLens</span>
           </div>
-          <nav className="hidden items-center space-x-8 md:flex">
-            <a
-              href="#features"
-              className="text-slate-600 transition-colors hover:text-slate-900"
-            >
-              Features
-            </a>
-            <a
-              href="#pricing"
-              className="text-slate-600 transition-colors hover:text-slate-900"
-            >
-              Pricing
-            </a>
-          </nav>
+         
           <div className="flex items-center space-x-4">
-            <Link href="/sign-in">
-            <Button variant="ghost" size="sm">
-              Sign In
-            </Button>
-            </Link>
-            <Link href="/sign-up">
-            <Button
-              size="sm"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-              >
-              Get Started Free
-            </Button>
+            {isSignedIn ? (
+              <Link href="/dashboard">
+                <Button
+                  size="sm"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                >
+                  Dashboard
+                </Button>
               </Link>
+            ) : (
+              <>
+                <Link href="/sign-in">
+                  <Button variant="ghost" size="sm">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/sign-up">
+                  <Button
+                    size="sm"
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  >
+                    Get Started Free
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -91,8 +94,10 @@ export default function LandingPage() {
             size="lg"
             className="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-6 text-lg hover:from-blue-700 hover:to-purple-700"
           >
-            <Code2 className="mr-2 h-5 w-5" />
+            <Link href="/sign-up" className="flex items-center">
+            <Github className="mr-2 h-5 w-5" />
             Connect Account
+            </Link>
           </Button>
           <Button variant="outline" size="lg" className="px-8 py-6 text-lg">
             Watch Demo
@@ -250,105 +255,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="container mx-auto px-4 py-20">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-4xl font-bold text-slate-900">
-            Simple, Transparent Pricing
-          </h2>
-          <p className="mx-auto max-w-2xl text-xl text-slate-600">
-            Start free, upgrade when you need more power
-          </p>
-        </div>
-
-        <div className="mx-auto grid max-w-4xl gap-8 md:grid-cols-2">
-          <Card className="border-2 border-slate-200">
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Free</CardTitle>
-              <div className="text-4xl font-bold text-slate-900">
-                $0
-                <span className="text-lg font-normal text-slate-600">
-                  /month
-                </span>
-              </div>
-              <CardDescription>
-                Perfect for individual developers and small projects
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex h-full flex-col justify-between">
-              <ul className="space-y-3">
-                <li className="flex items-center">
-                  <Check className="mr-3 h-5 w-5 text-green-500" />
-                  <span>Up to 3 repositories</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="mr-3 h-5 w-5 text-green-500" />
-                  <span>Basic AI code search</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="mr-3 h-5 w-5 text-green-500" />
-                  <span>100 AI chat messages/month</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="mr-3 h-5 w-5 text-green-500" />
-                  <span>Community support</span>
-                </li>
-              </ul>
-              <Button className="mt-6 w-full" variant="outline">
-                Get Started Free
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="relative border-2 border-blue-500">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 transform">
-              <Badge className="bg-blue-600 text-white">Most Popular</Badge>
-            </div>
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Pro</CardTitle>
-              <div className="text-4xl font-bold text-slate-900">
-                $29
-                <span className="text-lg font-normal text-slate-600">
-                  /month
-                </span>
-              </div>
-              <CardDescription>For teams and growing projects</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                <li className="flex items-center">
-                  <Check className="mr-3 h-5 w-5 text-green-500" />
-                  <span>Unlimited repositories</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="mr-3 h-5 w-5 text-green-500" />
-                  <span>Advanced AI features</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="mr-3 h-5 w-5 text-green-500" />
-                  <span>Unlimited AI chat</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="mr-3 h-5 w-5 text-green-500" />
-                  <span>Auto-generated documentation</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="mr-3 h-5 w-5 text-green-500" />
-                  <span>Priority support</span>
-                </li>
-                <li className="flex items-center">
-                  <Check className="mr-3 h-5 w-5 text-green-500" />
-                  <span>Team collaboration tools</span>
-                </li>
-              </ul>
-              <Button className="mt-6 w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                Start Pro Trial
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
+    
       {/* Social Proof Section */}
       <section className="container mx-auto px-4 py-20">
         <div className="mb-16 text-center">
