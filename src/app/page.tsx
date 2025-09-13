@@ -346,7 +346,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="bg-slate-900 py-12 text-white">
         <div className="container mx-auto px-4 text-center">
-            <p>&copy; 2024 CodeLens. All rights reserved.</p>
+            <p>&copy; 2025 CodeLens. All rights reserved.</p>
         </div>
       </footer>
     </div>
