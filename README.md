@@ -1,29 +1,63 @@
-# Create T3 App
+# CodeLens - AI-Powered GitHub Code Analysis & Collaboration
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Transform your development workflow with AI-assisted code navigation, natural language search, auto-generated documentation, and intelligent pull-request assistance. CodeLens integrates seamlessly with your GitHub repositories to provide powerful code intelligence and collaboration tools.
 
-## What's next? How do I make an app with this?
+## 🚀 Features
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+### 🔍 Natural Language Code Search
+- Search your entire codebase using natural language queries
+- Find functions, classes, and implementations instantly
+- Powered by vector embeddings and semantic similarity search
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+### 💬 AI Code Chat
+- Chat with your codebase using conversational AI
+- Ask questions, get explanations, and receive improvement suggestions
+- Context-aware responses based on your actual code
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+### 📚 Auto-Generated Documentation
+- Automatically generate comprehensive documentation for your code
+- API documentation and project structure insights
+- Keep documentation in sync with your codebase
 
-## Learn More
+### 🤖 Smart Pull Request Assistant
+- AI-powered code review suggestions
+- Automated conflict resolution recommendations
+- Intelligent testing and deployment suggestions
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+### 🔗 Seamless GitHub Integration
+- Direct integration with GitHub repositories, commits, and pull requests
+- Real-time synchronization with your GitHub workflow
+- No context switching required
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+### ⚡ Workflow Automation
+- Automate repetitive development tasks
+- Generate boilerplate code
+- Streamline your development process
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## 🛠️ Tech Stack
 
-## How do I deploy this?
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **UI Components**: Radix UI, Tailwind CSS
+- **Authentication**: Clerk
+- **Database**: PostgreSQL with Prisma ORM
+- **AI/ML**: Google Gemini AI, Vector Embeddings (pgvector)
+- **GitHub Integration**: Octokit, GitHub API
+- **State Management**: tRPC, TanStack Query
+- **Payments**: Stripe
+- **Deployment**: Vercel-ready
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+## 🏗️ Architecture
+
+### Core Components
+
+- **Vector Database**: PostgreSQL with pgvector extension for semantic search
+- **AI Processing**: Google Gemini for code analysis and natural language processing
+- **GitHub Integration**: Real-time repository synchronization and webhook processing
+- **Authentication**: Secure user management with Clerk
+- **API Layer**: Type-safe APIs with tRPC
+
+<br>
+<hr>
+<br>
+
+**Made with ❤️ by Punyakrit**
