@@ -86,18 +86,19 @@ function page() {
 
 
   return (
-    <div className="flex h-full items-center justify-center gap-12">
-      <img src="/create-img.png" alt="create" className="h-56 w-auto" />
-      <div>
-        <div>
-          <h1 className="text-2xl font-semibold">
+    <div className="flex flex-col lg:flex-row h-full items-center justify-center gap-6 lg:gap-12 p-4">
+      <div className="hidden lg:block">
+        <img src="/create-img.png" alt="create" className="h-56 w-auto" />
+      </div>
+      <div className="w-full max-w-md lg:max-w-none">
+        <div className="text-center lg:text-left mb-6">
+          <h1 className="text-xl sm:text-2xl font-semibold mb-2">
             Link your Github Repository
           </h1>
           <p className="text-muted-foreground text-sm">
             Enter the URL of your Github repository to link it to CodeLens
           </p>
         </div>
-        <div className="h-4"></div>
         <div>
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -121,41 +122,44 @@ function page() {
             </div>
             
             {!!checkCredits.data && (
-              <div className={`mt-2 rounded-md border px-4 py-2 ${
+              <div className={`mt-2 rounded-md border px-3 sm:px-4 py-2 ${
                 hasEnoughCredits 
                   ? "border-green-200 bg-green-50 text-green-600" 
                   : "border-rose-200 bg-rose-50 text-rose-600"
               }`}>
-                <div className="flex items-center gap-2">
-                  <Info className="size-4" />
-                  <p className="text-sm">
-                    You will be charged {checkCredits.data?.fileCount} credits for this repository.
-                  </p>
+                <div className="flex items-start gap-2">
+                  <Info className="size-4 flex-shrink-0 mt-0.5" />
+                  <div className="min-w-0">
+                    <p className="text-xs sm:text-sm">
+                      You will be charged {checkCredits.data?.fileCount} credits for this repository.
+                    </p>
+                    <p className="text-xs sm:text-sm mt-1">
+                      You have <strong>{checkCredits.data?.userCredits}</strong> credits remaining.
+                    </p>
+                    {!hasEnoughCredits && (
+                      <p className="text-xs sm:text-sm font-medium mt-1">
+                        Insufficient credits! You need {checkCredits.data?.fileCount - checkCredits.data?.userCredits} more credits.
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <p className="text-sm">
-                  You have <strong>{checkCredits.data?.userCredits}</strong> credits remaining.
-                </p>
-                {!hasEnoughCredits && (
-                  <p className="text-sm font-medium mt-1">
-                    Insufficient credits! You need {checkCredits.data?.fileCount - checkCredits.data?.userCredits} more credits.
-                  </p>
-                )}
               </div>
             )}
             {!checkCredits.data || checkCredits.isPending ? (
               <Button
                 type="submit"
-                className="mt-2"
+                className="mt-2 w-full sm:w-auto"
                 disabled={checkCredits.isPending}
               >
                 {checkCredits.isPending ? "Checking Credits..." : "Check Credits"}
               </Button>
             ) : !hasEnoughCredits ? (
-              <div className="flex gap-2 mt-2">
+              <div className="flex flex-col sm:flex-row gap-2 mt-2">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => router.push('/billing')}
+                  className="w-full sm:w-auto"
                 >
                   Purchase Credits
                 </Button>
@@ -163,7 +167,7 @@ function page() {
             ) : (
               <Button
                 type="button"
-                className="mt-2"
+                className="mt-2 w-full sm:w-auto"
                 disabled={createProject.isPending}
                 onClick={handleSubmit(handleCreateProject)}
               >

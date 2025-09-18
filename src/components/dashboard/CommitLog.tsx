@@ -12,10 +12,10 @@ function CommitLog() {
   });
   return (
     <>
-      <ul className="space-y-6">
+      <ul className="space-y-4 sm:space-y-6">
         {commits?.map((commit, index) => {
           return (
-            <li key={index} className="relative flex gap-x-4">
+            <li key={index} className="relative flex gap-x-3 sm:gap-x-4">
               <div
                 className={`${commits.length - 1 === index ? `h-6` : `-bottom-6`} absolute top-0 left-0 flex w-6 justify-center`}
               >
@@ -25,10 +25,10 @@ function CommitLog() {
                 <img
                   src={commit.commitAuthorAvatarUrl}
                   alt={commit.commitAuthorName}
-                  className="z-10 mt-4 size-8 flex-none rounded-full bg-gray-50"
+                  className="z-10 mt-3 sm:mt-4 size-6 sm:size-8 flex-none rounded-full bg-gray-50"
                 />
-                <div className="flex-auto rounded-md bg-white p-3 ring-1 ring-gray-200 ring-inset">
-                  <div className="flex justify-between gap-x-4">
+                <div className="flex-auto rounded-md bg-white p-2 sm:p-3 ring-1 ring-gray-200 ring-inset">
+                  <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-x-4">
                     <Link
                       href={`${project?.repoUrl}/commit/${commit.commitHash}`}
                       target="_blank"
@@ -39,14 +39,14 @@ function CommitLog() {
                       </span>{" "}
                       <span className="inline-flex items-center">
                         commited
-                        <ExternalLink className="ml-1 size-4 text-gray-500" />
+                        <ExternalLink className="ml-1 size-3 sm:size-4 text-gray-500" />
                       </span>
                     </Link>
                   </div>
-                <span className="font-semibold">
+                <span className="font-semibold text-sm sm:text-base block mt-1">
                   {commit.commitMessage}
                 </span>
-                <pre className="mt-1 text-sm whitespace-pre-wrap text-gray-500 leading-6">
+                <pre className="mt-1 text-xs sm:text-sm whitespace-pre-wrap text-gray-500 leading-5 sm:leading-6 overflow-x-auto">
                   {commit.summary}
                 </pre>
                 </div>

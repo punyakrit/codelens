@@ -6,6 +6,7 @@ import { Geist } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { TRPCReactProvider } from "@/trpc/react";
 import { Toaster } from "sonner";
+import { ThemeProvider } from "@/provider/Ui";
 
 export const metadata: Metadata = {
   title: "CodeLens - AI-Powered GitHub Code Analysis & Collaboration",
@@ -66,11 +67,21 @@ export default function RootLayout({
     }}>
 
     <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
-      <body>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body className="min-h-screen">
+      <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
       <TRPCReactProvider>
         {children}
         <Toaster richColors />
         </TRPCReactProvider>
+        </ThemeProvider>
       </body>
     </html>
     </ClerkProvider>

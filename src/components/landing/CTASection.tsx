@@ -7,9 +7,9 @@ import Link from "next/link";
 
 export default function CTASection() {
   return (
-    <section className="container mx-auto px-4 py-20">
+    <section className="container mx-auto px-4 py-12 sm:py-16 lg:py-20">
       <motion.div 
-        className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rose-500 to-rose-600 p-12 text-center text-white"
+        className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rose-500 to-rose-600 p-6 sm:p-8 lg:p-12 text-center text-white"
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8 }}
@@ -28,7 +28,7 @@ export default function CTASection() {
         />
         
         <motion.h2 
-          className="relative mb-4 text-4xl font-bold"
+          className="relative mb-4 text-2xl sm:text-3xl lg:text-4xl font-bold"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -38,7 +38,7 @@ export default function CTASection() {
         </motion.h2>
         
         <motion.p 
-          className="relative mx-auto mb-8 max-w-2xl text-xl opacity-90"
+          className="relative mx-auto mb-6 sm:mb-8 max-w-2xl text-base sm:text-lg lg:text-xl opacity-90 px-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -59,7 +59,7 @@ export default function CTASection() {
             <Button 
               size="lg" 
               variant="secondary" 
-              className="px-8 py-6 text-lg bg-white text-rose-600 hover:bg-rose-50 hover:text-rose-700 shadow-lg hover:shadow-xl transition-all duration-300 group"
+              className="px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg bg-white text-rose-600 hover:bg-rose-50 hover:text-rose-700 shadow-lg hover:shadow-xl transition-all duration-300 group w-full sm:w-auto"
             >
               Get Started
               <motion.div
@@ -67,7 +67,7 @@ export default function CTASection() {
                 animate={{ x: [0, 5, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               >
-                <ArrowRight className="h-5 w-5" />
+                <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
               </motion.div>
             </Button>
           </Link>

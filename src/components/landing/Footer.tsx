@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 export default function Footer() {
   return (
     <motion.footer 
-      className="bg-slate-900 py-8 text-white"
+      className="bg-slate-900 py-6 sm:py-8 text-white"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
@@ -24,7 +24,7 @@ export default function Footer() {
             <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-gradient-to-r from-rose-500 to-rose-600">
               <Code2 className="h-4 w-4 text-white" />
             </div>
-            <span className="text-lg font-bold">CodeLens</span>
+            <span className="text-base sm:text-lg font-bold">CodeLens</span>
           </motion.div>
           
           <motion.p 

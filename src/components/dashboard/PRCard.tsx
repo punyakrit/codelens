@@ -36,13 +36,13 @@ function PRCard({ pr }: PRCardProps) {
 
   return (
     <Card className="hover:shadow-md transition-shadow">
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-2">
-            <GitPullRequest className="h-4 w-4 text-blue-600" />
-            <CardTitle className="text-lg line-clamp-2">{pr.title}</CardTitle>
+      <CardHeader className="pb-2 sm:pb-3">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0 flex-1">
+            <GitPullRequest className="h-3 w-3 sm:h-4 sm:w-4 text-blue-600 flex-shrink-0" />
+            <CardTitle className="text-sm sm:text-lg line-clamp-2 min-w-0">{pr.title}</CardTitle>
           </div>
-          <Badge variant="secondary" className="ml-2">
+          <Badge variant="secondary" className="ml-2 flex-shrink-0 text-xs">
             PR
           </Badge>
         </div>
@@ -50,23 +50,22 @@ function PRCard({ pr }: PRCardProps) {
       
       <CardContent className="pt-0">
         {pr.bodySummary && (
-          <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+          <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-3">
             {pr.bodySummary}
           </p>
         )}
         
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
           <div className="flex items-center gap-2">
-            <Avatar className="h-6 w-6">
+            <Avatar className="h-5 w-5 sm:h-6 sm:w-6">
               <AvatarImage src={pr.user_avatar_url || ''} alt={pr.user_login || ''} />
               <AvatarFallback className="text-xs">
                 {pr.user_login?.charAt(0).toUpperCase() || 'U'}
               </AvatarFallback>
             </Avatar>
-            <span className="text-sm text-muted-foreground">
+            <span className="text-xs sm:text-sm text-muted-foreground truncate">
               {pr.user_login || 'Unknown'}
             </span>
-           
           </div>
           
           {pr.url && (
@@ -74,7 +73,7 @@ function PRCard({ pr }: PRCardProps) {
               variant="outline"
               size="sm"
               onClick={handleViewPR}
-              className="flex items-center gap-1"
+              className="flex items-center gap-1 w-full sm:w-auto text-xs sm:text-sm"
             >
               <ExternalLink className="h-3 w-3" />
               View

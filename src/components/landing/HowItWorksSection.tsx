@@ -54,7 +54,7 @@ const itemVariants = {
 
 export default function HowItWorksSection() {
   return (
-    <section className="container mx-auto px-4 py-20">
+    <section className="container mx-auto px-4 py-12 sm:py-16 lg:py-20">
       <motion.div 
         className="mb-16 text-center"
         initial={{ opacity: 0, y: 20 }}
@@ -62,16 +62,16 @@ export default function HowItWorksSection() {
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
       >
-        <h2 className="mb-4 text-4xl font-bold text-slate-900">
+        <h2 className="mb-4 text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900">
           How It Works
         </h2>
-        <p className="mx-auto max-w-2xl text-xl text-slate-600">
+        <p className="mx-auto max-w-2xl text-base sm:text-lg lg:text-xl text-slate-600 px-4">
           Get started in minutes with our simple 3-step process
         </p>
       </motion.div>
 
       <motion.div 
-        className="grid gap-8 md:grid-cols-3"
+        className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"

@@ -33,15 +33,15 @@ function InviteButton() {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-[95vw] sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Invite Team Members</DialogTitle>
-            <p className="text-sm text-gray-500">
+            <DialogTitle className="text-base sm:text-lg">Invite Team Members</DialogTitle>
+            <p className="text-xs sm:text-sm text-gray-500">
               Ask them to copy and paste this link into their browser to join
               the project.
             </p>
             <Input
-              className="mt-4"
+              className="mt-4 text-xs sm:text-sm"
               readOnly
               onClick={handleCopyToClipboard}
               value={inviteUrl}
@@ -49,8 +49,9 @@ function InviteButton() {
           </DialogHeader>
         </DialogContent>
       </Dialog>
-      <Button onClick={() => setOpen(true)} variant="outline">
-        Invite Members
+      <Button onClick={() => setOpen(true)} variant="outline" size="sm" className="text-xs sm:text-sm">
+        <span className="hidden sm:inline">Invite Members</span>
+        <span className="sm:hidden">Invite</span>
       </Button>
     </>
   );

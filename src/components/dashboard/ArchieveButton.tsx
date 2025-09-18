@@ -20,20 +20,22 @@ function ArchieveButton() {
       onClick={() => setOpen(true)}
       disabled={!project?.id || archiveProject.isPending}
       size="sm"
+      className="text-xs sm:text-sm"
     >
       Archive
     </Button>
     <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="max-w-[95vw] sm:max-w-md">
             <AlertDialogHeader>
-                <AlertDialogTitle>Are you sure you want to archive this project?</AlertDialogTitle>
-                <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+                <AlertDialogTitle className="text-base sm:text-lg">Are you sure you want to archive this project?</AlertDialogTitle>
+                <AlertDialogDescription className="text-sm">This action cannot be undone.</AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter>
+            <AlertDialogFooter className="flex-col sm:flex-row gap-2">
                 <Button 
                   variant="outline" 
                   onClick={() => setOpen(false)}
                   disabled={archiveProject.isPending}
+                  className="w-full sm:w-auto"
                 >
                   Cancel
                 </Button>
@@ -50,6 +52,7 @@ function ArchieveButton() {
                     }
                   })}
                   disabled={archiveProject.isPending}
+                  className="w-full sm:w-auto"
                 >
                   {archiveProject.isPending ? "Archiving..." : "Archive"}
                 </Button>

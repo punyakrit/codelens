@@ -163,17 +163,17 @@ function AskQuestion() {
         }
       `}</style>
       <Dialog open={open} onOpenChange={handleDialogClose}>
-        <DialogContent className="flex h-[80vh] max-w-[95vw] flex-col sm:max-w-[90vw]">
+        <DialogContent className="flex h-[85vh] sm:h-[80vh] max-w-[98vw] sm:max-w-[95vw] lg:max-w-[90vw] flex-col">
           <DialogHeader>
             <div className="flex items-center gap-5">
-              <DialogTitle className="flex items-center gap-2 text-2xl font-bold">
-                CodeLens <Code2 />
+              <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl lg:text-2xl font-bold">
+                CodeLens <Code2 className="h-5 w-5 sm:h-6 sm:w-6" />
               </DialogTitle>
             
             </div>
           </DialogHeader>
           <DialogDescription className="flex-1 space-y-4 overflow-scroll">
-            <div className="min-h-[200px] flex-1 overflow-y-auto rounded-lg border bg-background p-4">
+            <div className="min-h-[150px] sm:min-h-[200px] flex-1 overflow-y-auto rounded-lg border bg-background p-2 sm:p-4">
               <div className="markdown-content">
                 <MDEditor.Markdown
                   source={output}
@@ -195,18 +195,19 @@ function AskQuestion() {
           </DialogDescription>
         </DialogContent>
       </Dialog>
-      <Card className="relative col-span-3">
-        <CardHeader>
-          <CardTitle>Ask a question</CardTitle>
+      <Card className="relative col-span-1 lg:col-span-3">
+        <CardHeader className="pb-3 sm:pb-6">
+          <CardTitle className="text-base sm:text-lg">Ask a question</CardTitle>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={onSubmit}>
+        <CardContent className="pt-0">
+          <form onSubmit={onSubmit} className="space-y-3 sm:space-y-4">
             <Textarea
               placeholder="Which file contains authentication logic?"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
+              className="min-h-[80px] sm:min-h-[100px] text-sm sm:text-base"
             />
-            <Button type="submit" className="mt-4" disabled={loading}>
+            <Button type="submit" className="w-full sm:w-auto" disabled={loading}>
               Ask CodeLens
             </Button>
           </form>

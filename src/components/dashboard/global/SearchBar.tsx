@@ -31,7 +31,7 @@ function SearchBar() {
     const selectedProject = projects?.find(p => p.id === selectedProjectId);
 
     return (
-        <div className="relative w-full max-w-md">
+        <div className="relative w-full max-w-md sm:max-w-lg">
             <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input
@@ -43,7 +43,7 @@ function SearchBar() {
                         setIsOpen(true);
                     }}
                     onFocus={() => setIsOpen(true)}
-                    className="pl-10 pr-10 border-none w-full" 
+                    className="pl-10 pr-10 border-none w-full text-sm sm:text-base" 
                 />
                 <Button
                     variant="ghost"
@@ -56,7 +56,7 @@ function SearchBar() {
             </div>
 
             {isOpen && (
-                <Card className="absolute top-full left-0 right-0 mt-1 z-50 max-h-80 overflow-y-auto">
+                <Card className="absolute top-full left-0 right-0 mt-1 z-50 max-h-60 sm:max-h-80 overflow-y-auto">
                     <CardContent className="p-2">
                         {filteredProjects.length === 0 ? (
                             <div className="text-center py-4 text-muted-foreground">

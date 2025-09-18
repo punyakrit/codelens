@@ -15,27 +15,29 @@ function page() {
 
 
   return (
-    <div>
+    <div className="space-y-4 sm:space-y-6">
       <div>
-        <h1 className="text-xl font-semibold">Billing</h1>
+        <h1 className="text-lg sm:text-xl font-semibold">Billing</h1>
 
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 text-xs sm:text-sm text-gray-500">
           Your current balance is {user?.credits} credits.
         </p>
       </div>
-      <div className="mt-2 rounded-md border border-rose-200 bg-rose-50 px-4 py-2 text-rose-600">
-        <div className="flex items-center gap-2">
-          <Info className="size-4" />
-          <p className="text-sm">
-            Each credit allows you to index 1 file in a repository.
-          </p>
+      <div className="mt-2 rounded-md border border-rose-200 bg-rose-50 px-3 sm:px-4 py-2 text-rose-600">
+        <div className="flex items-start gap-2">
+          <Info className="size-4 flex-shrink-0 mt-0.5" />
+          <div className="min-w-0">
+            <p className="text-xs sm:text-sm">
+              Each credit allows you to index 1 file in a repository.
+            </p>
+            <p className="text-xs sm:text-sm mt-1">
+              E.g. If your project has 100 files, you will need 100 credits to index
+              all of them. You can buy more credits below.
+            </p>
+          </div>
         </div>
-        <p className="text-sm">
-          E.g. If your project has 100 files, you will need 100 credits to index
-          all of them. You can buy more credits below.
-        </p>
       </div>
-      <div className="mt-6">
+      <div className="mt-4 sm:mt-6">
         <Slider
           defaultValue={[100]}
           max={1000}
@@ -47,7 +49,7 @@ function page() {
         />
       </div>
       <Button
-        className="mt-4"
+        className="mt-4 w-full sm:w-auto"
         disabled={isPending}
         onClick={() => {
           startTransition(async () => {

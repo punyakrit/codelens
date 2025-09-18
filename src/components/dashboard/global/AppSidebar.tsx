@@ -61,26 +61,26 @@ function AppSidebar() {
       <SidebarHeader>
         <Link href="/dashboard">
           {open ? (
-            <div className="ml-2 flex cursor-pointer items-center gap-2 font-bold">
-              CodeLens <Code2 />
+            <div className="ml-2 flex cursor-pointer items-center gap-2 font-bold text-sm sm:text-base">
+              CodeLens <Code2 className="h-4 w-4 sm:h-5 sm:w-5" />
             </div>
           ) : (
-            <Code2 className="ml-1 size-6" />
+            <Code2 className="ml-1 size-5 sm:size-6" />
           )}
         </Link>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-xs sm:text-sm">Application</SidebarGroupLabel>
           <SidebarMenu>
             {items.map((item) => (
               <SidebarMenuItem key={item.label}>
                 <SidebarMenuButton asChild>
                   <Link
                     href={item.url}
-                    className={`${pathname === item.url ? "bg-sidebar-primary/30" : ""} hover:bg-sidebar-primary/10 flex list-none items-center`}
+                    className={`${pathname === item.url ? "bg-sidebar-primary/30" : ""} hover:bg-sidebar-primary/10 flex list-none items-center text-xs sm:text-sm`}
                   >
-                    <item.icon className="text-primary" />
+                    <item.icon className="text-primary h-4 w-4 sm:h-5 sm:w-5" />
                     <span>{item.label}</span>
                   </Link>
                 </SidebarMenuButton>
@@ -90,7 +90,7 @@ function AppSidebar() {
         </SidebarGroup>
         <Separator />
         <SidebarGroup>
-          <SidebarGroupLabel>Projects</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-xs sm:text-sm">Projects</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {projects?.map((project) => (
@@ -101,11 +101,11 @@ function AppSidebar() {
                       onClick={() => setSelectedProjectId(project.id)}
                     >
                       <div
-                        className={`text-primary flex size-6 items-center justify-center rounded-sm border text-sm ${project.id === selectedProjectId ? "bg-sidebar-primary/30" : ""}`}
+                        className={`text-primary flex size-5 sm:size-6 items-center justify-center rounded-sm border text-xs sm:text-sm ${project.id === selectedProjectId ? "bg-sidebar-primary/30" : ""}`}
                       >
                         {project.name[0]}
                       </div>
-                      <span>{project.name}</span>
+                      <span className="text-xs sm:text-sm truncate">{project.name}</span>
                     </div>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -115,15 +115,15 @@ function AppSidebar() {
                   {open ? (
                     <Button
                       size="sm"
-                      className="text-primary mt-2 flex items-center gap-2"
+                      className="text-primary mt-2 flex items-center gap-2 text-xs sm:text-sm"
                       variant="secondary"
                     >
-                      <PlusIcon />
+                      <PlusIcon className="h-3 w-3 sm:h-4 sm:w-4" />
                       Create Project
                     </Button>
                   ) : (
                     <div className="mt-2 flex items-center p-2">
-                      <PlusIcon />
+                      <PlusIcon className="h-4 w-4" />
                     </div>
                   )}
                 </Link>
