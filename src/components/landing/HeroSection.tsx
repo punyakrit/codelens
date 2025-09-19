@@ -1,12 +1,14 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Github, Star, Users, ArrowRight } from "lucide-react";
+import { Github, Star, Users, Play } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { VideoModal } from "../ui/video-modal";
 
 export default function HeroSection() {
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   return (
     <section className="container mx-auto px-4 py-12 sm:py-16 lg:py-20 text-center">
       <motion.div
@@ -66,7 +68,9 @@ export default function HeroSection() {
           variant="outline" 
           size="lg" 
           className="px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg border-rose-200 text-rose-600 hover:bg-rose-50 hover:border-rose-300 transition-all duration-300 w-full sm:w-auto"
+          onClick={() => setIsVideoModalOpen(true)}
         >
+          <Play className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
           <span className="hidden sm:inline">Watch Demo</span>
           <span className="sm:hidden">Demo</span>
         </Button>
@@ -87,6 +91,12 @@ export default function HeroSection() {
           <span>10,000+ active users</span>
         </div>
       </motion.div>
+      
+      <VideoModal
+        isOpen={isVideoModalOpen}
+        onClose={() => setIsVideoModalOpen(false)}
+        videoSrc="/codelens.mp4"
+      />
     </section>
   );
 }
