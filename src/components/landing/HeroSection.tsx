@@ -95,7 +95,7 @@ export default function HeroSection() {
       <VideoModal
         isOpen={isVideoModalOpen}
         onClose={() => setIsVideoModalOpen(false)}
-        videoSrc="/codelens.mp4"
+        videoSrc="https://nooskjgrslpgyitgkovi.supabase.co/storage/v1/object/public/video-upload/codelens.mp4"
       />
     </section>
   );
